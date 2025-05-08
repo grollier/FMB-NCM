@@ -27,7 +27,7 @@ As mentioned before the major techonologies being used in this template are **Fa
 
 ### Backend
 
-(___)
+___
 
 1. **Beanie**
     - Like Alembic is to SQLAlchemy, Beanie is to Mongodb, on which Beanie is an object-document mapper. Beanie is compatible with Pydantic data models and it helps you leaverage from some boilerplate coding.
@@ -46,7 +46,7 @@ As mentioned before the major techonologies being used in this template are **Fa
 
 ### Frontend
 
-(___)
+___
 
 1. **NextJs + Chakra-UI v3+**
     - This fullstack template works with nextjs app router and chakra-ui following the documentation of how to use the Chakra provider to wrap the application and how to allowed complete customization for theming by scaffolding the defaulttokens and recipes using the CLI.
