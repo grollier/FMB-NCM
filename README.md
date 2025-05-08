@@ -26,7 +26,9 @@ But why these changes?
 As mentioned before the major techonologies being used in this template are **FastAPI|MONGODB|NextJS** but there is much more under the hood that makes this template work and I will list them here and how they are being implemented in the template.
 
 ### Backend
+
 (___)
+
 1. **Beanie**
     - Like Alembic is to SQLAlchemy, Beanie is to Mongodb, on which Beanie is an object-document mapper. Beanie is compatible with Pydantic data models and it helps you leaverage from some boilerplate coding.
     Here is the link to their website [beanie](https://beanie-odm.dev/)
@@ -43,7 +45,9 @@ As mentioned before the major techonologies being used in this template are **Fa
     - The fullstack template that is provided by FastAPI official website has a configuration to work with your own smtp server, this fullstack template works with MailHog so you can test sending of emails as explain on their official github page [MailHog](https://github.com/mailhog/MailHog)
 
 ### Frontend
+
 (___)
+
 1. **NextJs + Chakra-UI v3+**
     - This fullstack template works with nextjs app router and chakra-ui following the documentation of how to use the Chakra provider to wrap the application and how to allowed complete customization for theming by scaffolding the defaulttokens and recipes using the CLI.
 
