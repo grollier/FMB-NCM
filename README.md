@@ -57,3 +57,33 @@ ___
 3. **motion**
     - motion for React is an animation library with a hybrid engine. That means it offers both the hardware accelerated performace of native browser animations, coupled with the limitless potential of javascript animations. You can read more of this at their website and find many examples to work with [motion](https://motion.dev/docs/react-quick-start). This template mixes Chakra-UI theming and motion, thus handling some animations with Chakra-UI and expanding them with motion.
 
+___
+
+# Configuring before running
+
+Well before you try and run the project you need to configurate your ".env" file which should be place at the root of the project folder. Don't know what or how write a .env file, let me give you a short intro:
+
+##### .env files
+
+In short .env files are plaintext files on which you store configuration settings, api keys, and other variables that you don't really want to be roaming hardcoded in your exposed internet application. example:
+
+You create a new file .env and inside of it you declare your variables like this ``myvariable=variable``, now lets say you want to configure the .env file for this template then take into consideration the following env variables:
+
+variables
+: `DOMAIN` this is the domain the app will be running like your localhost
+: `FRONTEND_HOST` this is the frontend endpoint nextjs runs on port 3000 by default
+: `SESSION_SECRET` this is your session secret please write a strong secret
+: `ENVIRONMENT` the environment you are running on 'local' 'staging' 'production'
+: `PROJECT_NAME` your projects name, shown to API users
+: `STACK_NAME` the name of the stack used for Docker Compose lables (no spaces, no periods)
+: `SECRET_KEY`
+: `FIRST_SUPERUSER` This is an email but you can always make the changes to use your users username instead of email
+: `FIRST_SUPERUSER_PASSWORD` the password for the super user
+: `MONGO_HOST` Your mongo cluster host
+: `MONGO_DB` Your mongodb name
+: `MONGO_USER` Your mongodb user name
+: `MONGO_PASSWORD` Your mongodb password
+: `DOCKER_IMAGE_BACKEND` Backend image name 
+: `DOCKER_IMAGE_FRONTEND` Frontend image name
+
+> At the same time you can find the .env file in the repository as an example as well.
