@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.server_api import ServerApi
 from beanie import init_beanie
 from app.core.config import settings
-from app.schemes import User, Post, Token, Message
+from app.schemes import UserBase, User, UserCreate, UserPublic, UserRegister, UsersPublic, UserUpdate, UserUpdateMe, UpdatePassword, PostBase, Post, PostCreate, PostsPublic, PostUpdate, PostPublic, Token, TokenPayload, Message
 
 logger = logging.getLogger(__name__)
 
@@ -32,4 +32,4 @@ async def init_db():
     """
     client = await get_mongo_client()
 
-    await init_beanie(database=client[settings.MONGO_DB], document_models=[User, Post, Token, Message])
+    await init_beanie(database=client[settings.MONGO_DB], document_models=[UserBase, User, UserCreate, UserPublic, UserRegister, UsersPublic, UserUpdate, UserUpdateMe, UpdatePassword, PostBase, Post, PostCreate, PostsPublic, PostUpdate, Token, TokenPayload, Message])

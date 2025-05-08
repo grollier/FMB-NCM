@@ -2,10 +2,12 @@ from typing import Optional, List, Any
 from pydantic import BaseModel, EmailStr, Field, GetCoreSchemaHandler
 from pydantic_core import core_schema
 from beanie import Document, Indexed, Link
+
 from bson import ObjectId
 from app.core.security import get_password_hash
 
 # Custom Pydantic type for ObjectId
+'''
 class PyObjectId:
     @classmethod
     def __get_pydantic_core_schema__(
@@ -45,6 +47,44 @@ class PyObjectId:
     
     def __repr__(self):
         return f"PyObjectId({str(self.value)})"
+'''
+
+class PyObjectId(str):
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, _: Any, __: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.union_schema([
+            core_schema.is_instance_schema(ObjectId),
+            core_schema.no_info_after_validator_function(
+                cls.validate,
+                core_schema.str_schema(),
+            )
+        ])
+    
+    @classmethod
+    def validate(cls, v:str) -> ObjectId:
+        if isinstance(v, ObjectId):
+            return v
+        if isinstance(v, str):
+            if ObjectId.is_valid(v):
+                return ObjectId(v)
+            raise ValueError("Invalid ObjectId")
+        raise TypeError("Must be str or ObjectId")
+    
+    @classmethod
+    def __get_pydantic_json_schema__(cls, schema: core_schema.CoreSchema, handler):
+        return {"type": "string", "format": "objectid"}
+    
+    def __init__(self, value: str | ObjectId):
+        self.value = self.validate(value)
+
+    def __str__(self):
+        return str(self.value)
+    
+    def __repr__(self):
+        return f"PyObjectId({super().__repr__()})"
+
 
 # User schema
  
@@ -67,6 +107,7 @@ class UserCreate(UserBase):
     def to_user(self) -> "User":
         """Conver UserCreate to User by hashing the password."""
         return User(
+            id=PyObjectId(ObjectId()), 
             email=self.email,
             hashed_password=get_password_hash(self.password),
             is_active=self.is_active,
@@ -106,7 +147,7 @@ class UpdatePassword(Document):
     class Settings: name = "password_updates"
     
 class User(UserBase):
-    id: PyObjectId = Field(default_factory=PyObjectId, primary_key=True, alias="_id")
+    id: PyObjectId = Field(default_factory=lambda: PyObjectId(ObjectId()), primary_key=True, alias="_id")
     email: str
     hashed_password: str
     posts: List[Link["Post"]] = [] # Link to posts (one-to-many relationship)
@@ -119,7 +160,7 @@ class User(UserBase):
         arbitrary_types_allowed = True
         json_encoders = {
             ObjectId: str,
-            PyObjectId: str,
+            PyObjectId: lambda x: str(x),
         }
 
 # Properties to return via API. id is always required.

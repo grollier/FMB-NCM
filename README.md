@@ -52,7 +52,7 @@ ___
     - This fullstack template works with nextjs app router and chakra-ui following the documentation of how to use the Chakra provider to wrap the application and how to allowed complete customization for theming by scaffolding the defaulttokens and recipes using the CLI.
 
 2. **heyopenapi/openapi**
-    - Client generated using Hey Api that works with Nextjs client. You will find the generated client in the client folder inside the frontend. To update the types and sdk just run the script 'generate-client' this will update the openapijs being generated from your backend openapi docs, after it then you can work with your types for whatever you like.
+    - Client generated using Hey Api that works with Nextjs client. You will find the generated client in the client folder inside the frontend. To update the types and sdk just run the script 'generate-client' this will update the openapi.json being generated from your backend openapi docs, after it then you can work with your types for whatever you like.
 
 3. **motion**
     - motion for React is an animation library with a hybrid engine. That means it offers both the hardware accelerated performace of native browser animations, coupled with the limitless potential of javascript animations. You can read more of this at their website and find many examples to work with [motion](https://motion.dev/docs/react-quick-start). This template mixes Chakra-UI theming and motion, thus handling some animations with Chakra-UI and expanding them with motion.
@@ -69,49 +69,50 @@ In short .env files are plaintext files on which you store configuration setting
 
 You create a new file .env and inside of it you declare your variables like this ``myvariable=variable``, now lets say you want to configure the .env file for this template then take into consideration the following env variables:
 
-`DOMAIN`
+- `DOMAIN`
 : this is the domain the app will be running like your localhost
 
-`FRONTEND_HOST`
+- `FRONTEND_HOST`
 : this is the frontend endpoint nextjs runs on port 3000 by default
 
-`SESSION_SECRET`
+- `SESSION_SECRET`
 : this is your session secret please write a strong secret
 
-`ENVIRONMENT`
+- `ENVIRONMENT`
 : the environment you are running on 'local' 'staging' 'production'
 
-`PROJECT_NAME`
+- `PROJECT_NAME`
 : your projects name, shown to API users
 
-`STACK_NAME`
+- `STACK_NAME`
 : the name of the stack used for Docker Compose lables (no spaces, no periods)
 
-`SECRET_KEY`
+- `SECRET_KEY`
 : Your project secret key make it as strong as possible
 
-`FIRST_SUPERUSER`
+- `FIRST_SUPERUSER`
 : This is an email but you can always make the changes to use your users username instead of email
 
-`FIRST_SUPERUSER_PASSWORD`
+- `FIRST_SUPERUSER_PASSWORD`
 : the password for the super user
 
-`MONGO_HOST`
+- `MONGO_HOST`
 : Your mongo cluster host
 
-`MONGO_DB`
+- `MONGO_DB`
 : Your mongodb name
 
-`MONGO_USER`
+- `MONGO_USER`
 : Your mongodb user name
 
-`MONGO_PASSWORD`
+- `MONGO_PASSWORD`
 : Your mongodb password
 
-`DOCKER_IMAGE_BACKEND`
+- `DOCKER_IMAGE_BACKEND`
 : Backend image name 
 
-`DOCKER_IMAGE_FRONTEND`
+- `DOCKER_IMAGE_FRONTEND`
 : Frontend image name
 
 > At the same time you can find the .env file in the repository as an example as well.
+ 

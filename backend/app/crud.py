@@ -21,10 +21,10 @@ async def create_first_superuser():
         password=settings.FIRST_SUPERUSER_PASSWORD,
         is_superuser=True,
         is_active=True,
-        username="" # set the username for the first superuser. you can also do it from the settings.
+        username="superuser" # set the username for the first superuser. you can also do it from the settings.
     )
 
-    superuser = suepruser_data.to_user()
+    superuser = superuser_data.to_user()
 
     try:
         validated_user = User.model_validate(superuser)
