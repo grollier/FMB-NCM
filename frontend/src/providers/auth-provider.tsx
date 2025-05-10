@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { loginLoginAccessToken, usersReadUserMe, UserPublic } from "@/client";
-import { apiClient } from "@/app/lib/api-client";
 import { createSession } from "@/app/lib/auth/sessions";
 
 type AuthContextType = {
