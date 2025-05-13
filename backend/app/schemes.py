@@ -7,48 +7,6 @@ from bson import ObjectId
 from app.core.security import get_password_hash
 
 # Custom Pydantic type for ObjectId
-'''
-class PyObjectId:
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Any, handler: GetCoreSchemaHandler
-    ) -> core_schema.CoreSchema:
-        
-        _ = source_type, handler
-
-        return core_schema.no_info_after_validator_function(
-            cls.validate,
-            core_schema.union_schema([
-                core_schema.str_schema(),
-                core_schema.is_instance_schema(ObjectId)
-            ]),
-        )
-    
-    # This class method handles the validation for our custom ObjectId
-    @classmethod
-    def validate(cls, v: str | ObjectId) -> ObjectId:
-        if isinstance(v, ObjectId):
-            return v
-        if isinstance(v, str):
-            if ObjectId.is_valid(v):
-                return ObjectId(v)
-            raise ValueError("Invalid ObjectId")
-        return ValueError("Invalid type for ObjectId")
-    
-    @classmethod
-    def __get_pydantic_json_schema__(cls, schema: core_schema.CoreSchema, handler):
-        return {"type": "string", "format": "objectid"}
-    
-    def __init__(self, value: str | ObjectId):
-        self.value = self.validate(value)
-
-    def __str__(self):
-        return str(self.value)
-    
-    def __repr__(self):
-        return f"PyObjectId({str(self.value)})"
-'''
-
 class PyObjectId(str):
     @classmethod
     def __get_pydantic_core_schema__(

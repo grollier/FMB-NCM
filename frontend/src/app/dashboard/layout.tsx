@@ -1,5 +1,5 @@
 import { Flex, Box } from "@chakra-ui/react";
-import DashboardNavbar from "@/components/admin/dashboard/navbar";
+import DashboardNavbar from "@/components/admin/admin-items/navbar/navbar";
 import { Provider } from "@/providers/chakra";
 import { AuthProvider } from "@/providers/auth-provider";
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Flex, Heading, Box, IconButton } from "@chakra-ui/react";
 import { motion } from "motion/react";
 import { LuSquareMenu } from "react-icons/lu";
+import { DashboardDrawer } from "@/components/admin/admin-items/drawer/drawer";
 
 export default function DashboardNavbar() {
 	const [open, setOpen] = useState(false);
@@ -22,30 +23,35 @@ export default function DashboardNavbar() {
 			zIndex="sticky"
 			color="white"
 		>
-			<IconButton
-				aria-label="Open Menu"
-				variant="ghost"
-				colorPalette="vanDyke.500"
-				size="lg"
-				onClick={() => setOpen(true)}
-			>
-				<LuSquareMenu />
-			</IconButton>
+			<DashboardDrawer open={open} onToggle={setOpen} />
 
 			<motion.div
 				initial={{ opacity: 0, y: -10 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.3 }}
 			>
-				<Heading
-					size="lg"
-					fontWeight="semibold"
-					colorPalette="whiteAlpha"
-					letterSpacing="tight"
+				<IconButton
+					aria-label="Open menu"
+					variant="ghost"
+					color="white"
+					_hover={{ bg: "rgba(255, 255, 255, 0.1" }}
+					onClick={() => setOpen(!open)}
 				>
-					Welcome to the Dashboard
-				</Heading>
+					<LuSquareMenu />
+				</IconButton>
 			</motion.div>
+
+			<Heading
+				size="lg"
+				fontWeight="semibold"
+				colorPalette="whiteAlpha"
+				letterSpacing="tight"
+				p={2}
+				flex={1}
+				textAlign="center"
+			>
+				Welcome to the Dashboard
+			</Heading>
 
 			<Box flex={1} display="flex" justifyContent="end" />
 		</Flex>

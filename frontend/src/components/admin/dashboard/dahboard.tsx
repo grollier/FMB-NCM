@@ -25,7 +25,8 @@ export default function DashboardClient() {
 					Welcome to the Dashboard
 				</Heading>
 				<Text color="offRed">
-					This is the Dashboard... an it is empty, but worry not! I'm working on it
+					This is the Dashboard... an it is empty, but worry not! I'm working on
+					it
 				</Text>
 			</Box>
 		</Box>

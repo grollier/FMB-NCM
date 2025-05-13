@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Button, Input, Stack, Fieldset, Field } from "@chakra-ui/react";
 import { MotionValue, animate, useMotionValue } from "motion/react";
 
-
 export default function AuthForm() {
 	const { login, isLoading, error } = useAuth();
 	const [username, setUsername] = useState("");
@@ -20,14 +19,14 @@ export default function AuthForm() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		await login(username, password)
-	}
+		await login(username, password);
+	};
 
 	return (
 		<div
-		    style={{
+			style={{
 				opacity: opacity as unknown as number,
-				transform: `translateY(${y.get()}px)`
+				transform: `translateY(${y.get()}px)`,
 			}}
 		>
 			<form onSubmit={handleSubmit}>
@@ -40,8 +39,8 @@ export default function AuthForm() {
 						<Stack gap={4}>
 							<Field.Root invalid={!username && !!error}>
 								<Field.Label>Username</Field.Label>
-								<Input 
-								    name="username"
+								<Input
+									name="username"
 									placeholder="Enter your username"
 									variant="subtle"
 									value={username}
@@ -53,8 +52,8 @@ export default function AuthForm() {
 
 							<Field.Root invalid={!password && !!error}>
 								<Field.Label>Password</Field.Label>
-								<Input 
-								    name="password"
+								<Input
+									name="password"
 									type="password"
 									variant="subtle"
 									placeholder="Enter your password"
@@ -65,7 +64,7 @@ export default function AuthForm() {
 							</Field.Root>
 
 							<Button
-							    type="submit"
+								type="submit"
 								width="full"
 								colorScheme="teal"
 								loading={isLoading}
@@ -78,7 +77,7 @@ export default function AuthForm() {
 
 					{error && (
 						<Fieldset.ErrorText
-						    initial={{ opacity: 0 }}
+							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ duration: 0.2 }}
 							mt={2}
