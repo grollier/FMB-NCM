@@ -3,10 +3,9 @@ from typing import Any
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException
-from bson import ObjectId
 
 from app import crud
-from app.api.deps import(
+from app.api.deps import (
     CurrentUser,
     get_current_active_superuser,
 )
@@ -23,12 +22,13 @@ from app.schemes import (
     UsersPublic,
     UserUpdate,
     UserUpdateMe,
-    PyObjectId
+    PyObjectId,
 )
 from app.utils import generate_new_account_email, send_email
 
 router = APIRouter(prefix="/users", tags=["users"])
 logger = logging.getLogger(__name__)
+
 
 @router.get(
     "/",
@@ -45,6 +45,7 @@ async def read_users(skip: int = 0, limit: int = 100) -> Any:
 
     return UsersPublic(data=users_public, total_count=total_count)
 
+
 @router.post(
     "/", dependencies=[Depends(get_current_active_superuser)], response_model=UserPublic
 )
@@ -58,7 +59,7 @@ async def create_user(*, user_in: UserCreate) -> Any:
             status_code=400,
             detail="The user with this email already exists in the system",
         )
-    
+
     user = await crud.create_user(user_create=user_in)
     if settings.emails_enabled and user_in.email:
         email_data = generate_new_account_email(
@@ -71,10 +72,9 @@ async def create_user(*, user_in: UserCreate) -> Any:
         )
     return user
 
+
 @router.patch("/me", response_model=UserPublic)
-async def update_user_me(
-    *, user_in: UserUpdateMe, current_user: CurrentUser
-) -> Any:
+async def update_user_me(*, user_in: UserUpdateMe, current_user: CurrentUser) -> Any:
     """
     Update own user.
     """
@@ -87,11 +87,10 @@ async def update_user_me(
     user_data = user_in.model_dump(exclude_unset=True)
     await current_user.set(user_data)
     return current_user
-        
+
+
 @router.patch("/me/password", response_model=Message)
-async def update_password_me(
-    *, body: UpdatePassword, current_user: CurrentUser
-) -> Any:
+async def update_password_me(*, body: UpdatePassword, current_user: CurrentUser) -> Any:
     """
     Update own password.
     """
@@ -105,12 +104,14 @@ async def update_password_me(
     await current_user.set({"hashed_password": hashed_password})
     return Message(message="Password updated successfully")
 
+
 @router.get("/me", response_model=UserPublic)
 async def read_user_me(current_user: CurrentUser) -> Any:
     """
     Get current user.
     """
     return current_user
+
 
 @router.delete("/me", response_model=Message)
 async def delete_user_me(current_user: CurrentUser) -> Any:
@@ -123,6 +124,7 @@ async def delete_user_me(current_user: CurrentUser) -> Any:
         )
     await current_user.delete()
     return Message(message="User deleted successfully")
+
 
 @router.post("/signup", response_model=UserPublic)
 async def register_user(user_in: UserRegister) -> Any:
@@ -142,10 +144,9 @@ async def register_user(user_in: UserRegister) -> Any:
     user = await crud.create_user(user_create=user_create)
     return user
 
+
 @router.get("/{user_id}", response_model=UserPublic)
-async def read_user_by_id(
-    user_id: PyObjectId, current_user: CurrentUser
-) -> Any:
+async def read_user_by_id(user_id: PyObjectId, current_user: CurrentUser) -> Any:
     """
     Get a specific user by id.
     """
@@ -154,19 +155,17 @@ async def read_user_by_id(
         return user
     if not current_user.is_superuser:
         raise HTTPException(
-            status_code=403,
-            detail="The user doesn't have enough privileges"
+            status_code=403, detail="The user doesn't have enough privileges"
         )
     return user
+
 
 @router.patch(
     "/{user_id}",
     dependencies=[Depends(get_current_active_superuser)],
     response_model=UserPublic,
 )
-async def update_user(
-    *, user_id: PyObjectId, user_in: UserUpdate
-) -> Any:
+async def update_user(*, user_id: PyObjectId, user_in: UserUpdate) -> Any:
     """
     Update a user.
     """
@@ -186,10 +185,9 @@ async def update_user(
     db_user = await crud.update_user(db_user=db_user, user_in=user_in)
     return db_user
 
+
 @router.delete("/{user_id}", dependencies=[Depends(get_current_active_superuser)])
-async def delete_user(
-    currrent_user: CurrentUser, user_id: PyObjectId
-) -> Message:
+async def delete_user(currrent_user: CurrentUser, user_id: PyObjectId) -> Message:
     """
     Delete a user.
     """

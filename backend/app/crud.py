@@ -1,11 +1,12 @@
 # crud.py
-from typing import Any, Optional, Dict, List
+from typing import Optional
 from pydantic import ValidationError
 from bson import ObjectId
 
 from app.core.config import settings
 from app.core.security import get_password_hash, verify_password
 from app.schemes import Post, PostCreate, User, UserCreate, UserUpdate, PyObjectId
+
 
 async def create_first_superuser():
     """
@@ -15,13 +16,13 @@ async def create_first_superuser():
     if existing_superuser:
         print("It seems there is already a superuser. skipping creation.")
         return
-    
+
     superuser_data = UserCreate(
         email=settings.FIRST_SUPERUSER,
         password=settings.FIRST_SUPERUSER_PASSWORD,
         is_superuser=True,
         is_active=True,
-        username="superuser" # set the username for the first superuser. you can also do it from the settings.
+        username="superuser",  # set the username for the first superuser. you can also do it from the settings.
     )
 
     superuser = superuser_data.to_user()
@@ -33,6 +34,7 @@ async def create_first_superuser():
         print(f"Validation error: {e}")
         raise
 
+
 async def create_user(*, user_create: UserCreate) -> User:
     """Create a new user in the database."""
     hashed_password = get_password_hash(user_create.password)
@@ -42,10 +44,11 @@ async def create_user(*, user_create: UserCreate) -> User:
         hashed_password=hashed_password,
         is_active=user_create.is_active,
         is_superuser=user_create.is_superuser,
-        username=user_create.username,        
+        username=user_create.username,
     )
-    await db_user.insert() # insert the user into the database
+    await db_user.insert()  # insert the user into the database
     return db_user
+
 
 async def update_user(*, db_user: User, user_in: UserUpdate) -> User:
     """Update an existing user in the database."""
@@ -53,20 +56,24 @@ async def update_user(*, db_user: User, user_in: UserUpdate) -> User:
     if "password" in user_data:
         hashed_password = get_password_hash(user_data["password"])
         user_data["hashed_password"] = hashed_password
-    await db_user.set(user_data) # update the user document
+    await db_user.set(user_data)  # update the user document
     return db_user
+
 
 async def get_user_by_email(*, email: str) -> Optional[User]:
     """Get a user by email from the database."""
     return await User.find_one(User.email == email)
 
+
 async def get_user_by_username(*, username: str) -> Optional[User]:
     """Get a user by username from the database."""
     return await User.find_one(User.username == username)
 
+
 async def get_user_by_role(*, username: str, role: bool) -> Optional[User]:
     """Get a user by role, that is if is superuser or not"""
     return await User.find_one(User.username == username, User.is_superuser == role)
+
 
 async def authenticate(*, email: str, password: str) -> Optional[User]:
     """Authenticate a user by email and password."""
@@ -77,12 +84,13 @@ async def authenticate(*, email: str, password: str) -> Optional[User]:
         return None
     return db_user
 
+
 async def create_post(*, post_in: PostCreate, owner_id: PyObjectId) -> Post:
     """Create a new item in the database."""
     db_post = Post(
         title=post_in.title,
         body=post_in.body,
-        owner=owner_id, # Link to the owner using ObjectId
+        owner=owner_id,  # Link to the owner using ObjectId
     )
     await db_post.insert()
     return db_post

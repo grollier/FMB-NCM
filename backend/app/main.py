@@ -11,8 +11,10 @@ from app.crud import create_first_superuser
 
 logger = logging.getLogger(__name__)
 
+
 def custom_generate_unique_id(route: APIRoute) -> str:
     return f"{route.tags[0]}-{route.name}"
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,7 +29,8 @@ async def lifespan(app: FastAPI):
     await create_first_superuser()
     logger.info("superuser generates succesfully")
 
-    yield # The app is now running
+    yield  # The app is now running
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -42,7 +45,7 @@ if settings.all_cors_origins:
         allow_origins=settings.all_cors_origins,
         allow_credentials=True,
         allow_methods=["*"],
-        allow_headers=["*"]
+        allow_headers=["*"],
     )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
