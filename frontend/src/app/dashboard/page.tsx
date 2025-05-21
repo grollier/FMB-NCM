@@ -1,7 +1,7 @@
 import DashboardClient from "@/components/admin/dashboard/dahboard";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { verifySession } from "@/app/lib/dal";
+import { verifySession } from "@/app/lib/auth/sessions";
 
 export default async function Dashboard() {
     const sessionToken = (await cookies()).get("session")?.value

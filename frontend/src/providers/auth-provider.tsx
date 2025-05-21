@@ -64,6 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }){
 
             if (userResponse.data) {
                 const { session, expiresAt } = await createSession(
+                    userResponse.data.username,
                     tokenResponse.data.access_token,
                     userResponse.data._id,
                     userResponse.data.is_superuser

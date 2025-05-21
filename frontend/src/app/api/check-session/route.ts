@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { verifySession } from "@/app/lib/dal";
+import { verifySession } from "@/app/lib/auth/sessions";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -19,7 +19,8 @@ export async function GET() {
         isAuthenticated: true,
         user: {
             username: session.username,
-            is_superuser: session.is_superuser,
+            is_superuser: session.isSuperuser,
+            userId: session.userId
         },
     });
 }
