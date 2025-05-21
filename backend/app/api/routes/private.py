@@ -1,20 +1,20 @@
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from bson import ObjectId
 
-from app.api.deps import CurrentUser
 from app.core.security import get_password_hash
 from app.schemes import User, UserPublic
 
 router = APIRouter(tags=["private"], prefix="/private")
+
 
 class PrivateUserCreate(BaseModel):
     email: str
     password: str
     username: str
     is_verified: bool = False
+
 
 @router.post("/users/", response_model=UserPublic)
 async def create_user(user_in: PrivateUserCreate) -> Any:
@@ -27,7 +27,7 @@ async def create_user(user_in: PrivateUserCreate) -> Any:
             status_code=400,
             detail="The User with this email already exists in the system.",
         )
-    
+
     user = User(
         email=user_in.email,
         username=user_in.username,

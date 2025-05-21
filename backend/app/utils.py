@@ -8,7 +8,6 @@ import emails
 import jwt
 from jinja2 import Template
 from jwt.exceptions import InvalidTokenError
-from pydantic import EmailStr
 
 from app.core import security
 from app.core.config import settings
@@ -16,10 +15,12 @@ from app.core.config import settings
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class EmailData:
     html_content: str
     subject: str
+
 
 def render_email_template(*, template_name: str, context: dict[str, Any]) -> str:
     """
@@ -31,11 +32,12 @@ def render_email_template(*, template_name: str, context: dict[str, Any]) -> str
     html_content = Template(template_str).render(context)
     return html_content
 
+
 def send_email(
-        *,
-        email_to: str,
-        subject: str = "",
-        html_content: str = "",
+    *,
+    email_to: str,
+    subject: str = "",
+    html_content: str = "",
 ) -> None:
     """
     Send an email using Mailhog's SMTP server (this is only for testing.)
@@ -44,7 +46,7 @@ def send_email(
     message = emails.Message(
         subject=subject,
         html=html_content,
-        mail_from=(settings.EMAILS_FROM_NAME, settings.EMAILS_FROM_EMAIL)
+        mail_from=(settings.EMAILS_FROM_NAME, settings.EMAILS_FROM_EMAIL),
     )
     smtp_options = {
         "host": settings.SMTP_HOST,
@@ -55,6 +57,7 @@ def send_email(
     response = message.send(to=email_to, smtp=smtp_options)
     logger.info(f"send email result: {response}")
 
+
 def generate_reset_password_email(email_to: str, email: str, token: str) -> EmailData:
     """
     Generate a password reset email.
@@ -63,7 +66,7 @@ def generate_reset_password_email(email_to: str, email: str, token: str) -> Emai
     subject = f"{project_name} - Password recovery for user {email}"
     link = f"{settings.FRONTEND_HOST}/reset-password?token={token}"
     html_content = render_email_template(
-        template_name = "reset_password.html",
+        template_name="reset_password.html",
         context={
             "project_name": settings.PROJECT_NAME,
             "username": email,
@@ -73,25 +76,27 @@ def generate_reset_password_email(email_to: str, email: str, token: str) -> Emai
     )
     return EmailData(html_content=html_content, subject=subject)
 
+
 def generate_new_account_email(
-        email_to: str, username: str, password: str
+    email_to: str, username: str, password: str
 ) -> EmailData:
     """
     Generate a new account email.
     """
-    project_name=settings.PROJECT_NAME
-    subject=f"{project_name} - New account for user {username}"
-    html_content=render_email_template(
+    project_name = settings.PROJECT_NAME
+    subject = f"{project_name} - New account for user {username}"
+    html_content = render_email_template(
         template_name="new_account.html",
         context={
             "project_name": settings.PROJECT_NAME,
             "username": username,
             "password": password,
             "email": email_to,
-            "link": settings.FRONTEND_HOST
-        }
+            "link": settings.FRONTEND_HOST,
+        },
     )
     return EmailData(html_content=html_content, subject=subject)
+
 
 def generate_password_reset_token(email: str) -> str:
     """
@@ -104,9 +109,10 @@ def generate_password_reset_token(email: str) -> str:
     encoded_jwt = jwt.encode(
         {"exp": exp, "nbf": now, "sub": email},
         settings.SECRET_KEY,
-        algorithm=security.ALGORITHM
+        algorithm=security.ALGORITHM,
     )
     return encoded_jwt
+
 
 def verify_password_reset_token(token: str) -> str | None:
     """
