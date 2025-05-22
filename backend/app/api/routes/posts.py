@@ -1,18 +1,25 @@
 # posts.py
-from typing import Any, List
+from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
-from bson import ObjectId
+from fastapi import APIRouter, HTTPException
 
 from app.api.deps import CurrentUser
-from app.schemes import Post, PostCreate, PostPublic, PostUpdate, Message, PyObjectId, User, UserPublic
+from app.schemes import (
+    Post,
+    PostCreate,
+    PostPublic,
+    PostUpdate,
+    Message,
+    PyObjectId,
+    User,
+    UserPublic,
+)
 
 router = APIRouter(prefix="/posts", tags=["posts"])
 
+
 @router.get("/", response_model=PostPublic)
-async def read_posts(
-    current_user: CurrentUser, skip: int = 0, limit: int = 100
-) -> Any:
+async def read_posts(current_user: CurrentUser, skip: int = 0, limit: int = 100) -> Any:
     """
     Retrieve posts.
     """
@@ -20,7 +27,12 @@ async def read_posts(
         posts = await Post.find().skip(skip).limit(limit).to_list()
         total_count = await Post.find().count()
     else:
-        posts = await Post.find(Post.owner == current_user.id).skip(skip).limit(limit).to_list()
+        posts = (
+            await Post.find(Post.owner == current_user.id)
+            .skip(skip)
+            .limit(limit)
+            .to_list()
+        )
         total_count = await Post.find(Post.owner == current_user.id).count()
 
     posts_with_owner = []
@@ -32,41 +44,32 @@ async def read_posts(
 
     return PostPublic(data=posts_with_owner, total_count=total_count)
 
+
 @router.post("/", response_model=PostPublic)
-async def create_post(
-    *, current_user: CurrentUser, post_in: PostCreate
-) -> Any:
+async def create_post(*, current_user: CurrentUser, post_in: PostCreate) -> Any:
     """
     Create new post.
     """
     user = await User.get(current_user.id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     user_public = UserPublic(**user.model_dump())
-    
+
     post = Post(
-        title=post_in.title,
-        body=post_in.body,
-        owner=user,
-        owner_id=current_user.id
+        title=post_in.title, body=post_in.body, owner=user, owner_id=current_user.id
     )
     await post.insert()
 
     post_public = PostPublic(
-        data=[post],
-        total_count=1,
-        owner=user_public,
-        owner_id=current_user.id
+        data=[post], total_count=1, owner=user_public, owner_id=current_user.id
     )
     return post_public
 
+
 @router.put("/{id}", response_model=PostPublic)
 async def update_post(
-    *,
-    current_user: CurrentUser,
-    id: PyObjectId,
-    post_in: PostUpdate
+    *, current_user: CurrentUser, id: PyObjectId, post_in: PostUpdate
 ) -> Any:
     """
     Update an post.
@@ -80,10 +83,9 @@ async def update_post(
     await post.set(update_dict)
     return post
 
+
 @router.delete("/{id}")
-async def delete_post(
-    current_user: CurrentUser, id: PyObjectId
-) -> Message:
+async def delete_post(current_user: CurrentUser, id: PyObjectId) -> Message:
     """
     Delete a post.
     """
