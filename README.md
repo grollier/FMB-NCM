@@ -111,3 +111,5 @@ npm run dev
     This README will evolve as the project grows. Check back for updates!
 
     Want to contribute? Open an issue or PR!
+
+[![BAM! Stack](https://img.shields.io/badge/BAM!%20Stack-FastAPI%20%2B%20MongoDB%20%2B%20Next.js-orange?style=for-the-badge&logo=fastapi&logoColor=white)](https://github.com/your-repo)
