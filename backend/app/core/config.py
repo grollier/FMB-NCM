@@ -14,9 +14,7 @@ from pydantic import (
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing_extensions import Self
 
-
 logger = logging.getLogger(__name__)
-
 
 def parse_cors(v: Any) -> list[AnyUrl] | str:
     if isinstance(v, str) and not v.startswith("["):
