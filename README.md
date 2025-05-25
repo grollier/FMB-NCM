@@ -1,118 +1,113 @@
-# FMB-NCM [^1]
-[^1]: readme is subject to multiple changes as the project keeps developing.
+# 🚀 FMB-NCM Template  
 
-### Template Based from the Tiangolo FastApi Template with some major changes.
+**A Full-Stack FastAPI + Next.js + MongoDB Starter Template**  
 
-# Introduction
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Chakra UI](https://img.shields.io/badge/Chakra%20UI-319795?style=for-the-badge&logo=chakraui&logoColor=white)](https://chakra-ui.com/)
 
-While this template is based from the one shared in FastApi website [Full Stack FastAPI Template](https://fastapi.tiangolo.com/project-generation/)
-it has its own major changes, on which I will descripe.
+## 📖 Introduction  
 
-The major changes in this template are:
+This template is a **heavily modified** version of [Tiangolo’s Full-Stack FastAPI Template](https://github.com/tiangolo/full-stack-fastapi-template), optimized for **MongoDB** and **Next.js (App Router)** with **Chakra UI v3+**.  
 
-1. Mongodb instead of SQLAlchemy
-2. Beani as the ODM
-3. Nextjs app router instead of Vitejs
-4. Chakra-UI v3
+### 🔥 Key Differences  
 
-But why these changes?
+| Original Template | This Template |  
+|-------------------|---------------|  
+| SQLAlchemy (PostgreSQL) | **MongoDB + Beanie ODM** |  
+| Vite.js (React) | **Next.js (App Router)** |  
+| Traditional CSS/JS | **Chakra UI v3 + Motion Animations** |  
 
-- Short Answer: I really like python and mongodb, thus I wanted to work with both technologies.
+### ❓ Why These Changes?  
 
-- Long Answer: I have always liked working with mongodb and quench a thirst for learning more from it, but not so many companies, on which I have worked at, have projects working with nonSQL databases (I usually worked as backend dev), so I decided to dive into it in my free personal time. Thus resulting now on a full stack template that work with Mongo as the database and FastApi in the backend.
+- **Short Answer**: I love Python + MongoDB, and wanted a modern full-stack template for them.  
+- **Long Answer**: Most companies I’ve worked with use SQL databases, so I built this to explore **MongoDB’s flexibility** while keeping FastAPI’s power.  
 
-# Technologies and Tools
+---
 
-As mentioned before the major techonologies being used in this template are **FastAPI|MONGODB|NextJS** but there is much more under the hood that makes this template work and I will list them here and how they are being implemented in the template.
+## 🛠️ Tech Stack  
 
-### Backend
+### **Backend**  
+- **FastAPI** – High-performance Python framework.  
+- **MongoDB** – NoSQL database for flexible data modeling.  
+- **Beanie ODM** – Async MongoDB ODM (like SQLAlchemy for Mongo). [📚 Docs](https://beanie-odm.dev/)  
+- **Motor** – Async MongoDB driver. [⚡ Docs](https://motor.readthedocs.io/)  
+- **UV (Astral)** – Blazing-fast Python package manager (written in Rust). [🚀 Docs](https://github.com/astral-sh/uv)  
+- **MailHog** – Local email testing (instead of SMTP). [📧 GitHub](https://github.com/mailhog/MailHog)  
 
-___
+### **Frontend**  
+- **Next.js (App Router)** – React framework for server-side rendering.  
+- **Chakra UI v3+** – Modular, accessible component library.  
+- **HeyOpenAPI** – Auto-generated API client. [🔗 GitHub](https://github.com/hey-api/openapi-ts)  
+- **Framer Motion** – Smooth animations. [🎬 Docs](https://www.framer.com/motion/)  
 
-1. **Beanie**
-    - Like Alembic is to SQLAlchemy, Beanie is to Mongodb, on which Beanie is an object-document mapper. Beanie is compatible with Pydantic data models and it helps you leaverage from some boilerplate coding.
-    Here is the link to their website [beanie](https://beanie-odm.dev/)
+---
 
-2. **Motor**
-    - Motor is the driver for python that handles a coroutine-based API for non-blocking access to MongoDB. In this template we are working with AsyncIOMotor to create the client and it works with mongodb server api v1
-    Here is the link to Motor docs [AsyncIOMotor](https://motor.readthedocs.io/en/stable/tutorial-asyncio.html)
+## ⚙️ Setup & Configuration  
 
-3. **uv - Astral**
-    - This is an extremely fast python package and project manager, written in Rust, which can be use instead of pip, pip-tools, poetry, etc.
-    it provides a project management, with universal lockfile, and it can install and manage python versions. You can lear how to use it with FastApi from here [uv-Astral](https://docs.astral.sh/uv/guides/integration/fastapi/)
+### **Before You Run**  
+1. Create a `.env` file in the root directory (use `.env.example` as a reference).  
+2. Configure these **required** variables:  
 
-4. **MailHog**
-    - The fullstack template that is provided by FastAPI official website has a configuration to work with your own smtp server, this fullstack template works with MailHog so you can test sending of emails as explain on their official github page [MailHog](https://github.com/mailhog/MailHog)
+```env
+# Core Settings
+DOMAIN="localhost"  
+FRONTEND_HOST="http://localhost:3000"  
+ENVIRONMENT="local"  # (local|staging|production)  
 
-### Frontend
+# Security
+SECRET_KEY="your_strong_secret_here"  
+SESSION_SECRET="another_strong_secret"  
 
-___
+# Database (MongoDB)
+MONGO_HOST="your_mongo_host"  
+MONGO_DB="your_db_name"  
+MONGO_USER="your_username"  
+MONGO_PASSWORD="your_password"  
 
-1. **NextJs + Chakra-UI v3+**
-    - This fullstack template works with nextjs app router and chakra-ui following the documentation of how to use the Chakra provider to wrap the application and how to allowed complete customization for theming by scaffolding the defaulttokens and recipes using the CLI.
+# Superuser (Admin)
+FIRST_SUPERUSER="admin@example.com"  
+FIRST_SUPERUSER_PASSWORD="secure_password"  
 
-2. **heyopenapi/openapi**
-    - Client generated using Hey Api that works with Nextjs client. You will find the generated client in the client folder inside the frontend. To update the types and sdk just run the script 'generate-client' this will update the openapi.json being generated from your backend openapi docs, after it then you can work with your types for whatever you like.
+# Docker (Optional)
+DOCKER_IMAGE_BACKEND="backend_image_name"  
+DOCKER_IMAGE_FRONTEND="frontend_image_name"
+```
 
-3. **motion**
-    - motion for React is an animation library with a hybrid engine. That means it offers both the hardware accelerated performace of native browser animations, coupled with the limitless potential of javascript animations. You can read more of this at their website and find many examples to work with [motion](https://motion.dev/docs/react-quick-start). This template mixes Chakra-UI theming and motion, thus handling some animations with Chakra-UI and expanding them with motion.
+# Generating the API Client
 
-___
+Run this script to sync your frontend with the FastAPI OpenAPI spec:
+```bash
+npm run generate-client  # Updates types & SDK
+```
 
-# Configuring before running
+🏃‍♂️ # Running the Project
+With Docker (Recommended)
+```docker
+docker-compose up --build
+```
 
-Well before you try and run the project you need to configurate your ".env" file which should be place at the root of the project folder. Don't know what or how write a .env file, let me give you a short intro:
+# Manually
+1. Backend:
+   if you have not started the proyect you need to initialized it
+```bash
+uv init --app
+uv add fastapi --extra standard
+```
+   after that you can sync using uv command:
+```bash
+uv sync
+```
 
-##### .env files
+2. frontend
+```bash
+cd frontend && npm install  
+npm run dev
+```
 
-In short .env files are plaintext files on which you store configuration settings, api keys, and other variables that you don't really want to be roaming hardcoded in your exposed internet application. example:
+📝 Notes
 
-You create a new file .env and inside of it you declare your variables like this ``myvariable=variable``, now lets say you want to configure the .env file for this template then take into consideration the following env variables:
+    This README will evolve as the project grows. Check back for updates!
 
-- `DOMAIN`
-: this is the domain the app will be running like your localhost
-
-- `FRONTEND_HOST`
-: this is the frontend endpoint nextjs runs on port 3000 by default
-
-- `SESSION_SECRET`
-: this is your session secret please write a strong secret
-
-- `ENVIRONMENT`
-: the environment you are running on 'local' 'staging' 'production'
-
-- `PROJECT_NAME`
-: your projects name, shown to API users
-
-- `STACK_NAME`
-: the name of the stack used for Docker Compose lables (no spaces, no periods)
-
-- `SECRET_KEY`
-: Your project secret key make it as strong as possible
-
-- `FIRST_SUPERUSER`
-: This is an email but you can always make the changes to use your users username instead of email
-
-- `FIRST_SUPERUSER_PASSWORD`
-: the password for the super user
-
-- `MONGO_HOST`
-: Your mongo cluster host
-
-- `MONGO_DB`
-: Your mongodb name
-
-- `MONGO_USER`
-: Your mongodb user name
-
-- `MONGO_PASSWORD`
-: Your mongodb password
-
-- `DOCKER_IMAGE_BACKEND`
-: Backend image name 
-
-- `DOCKER_IMAGE_FRONTEND`
-: Frontend image name
-
-> At the same time you can find the .env file in the repository as an example as well.
- 
+    Want to contribute? Open an issue or PR!
