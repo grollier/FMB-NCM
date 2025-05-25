@@ -4,17 +4,17 @@ import { redirect } from "next/navigation";
 import { verifySession } from "@/app/lib/auth/sessions";
 
 export default async function Dashboard() {
-    const sessionToken = (await cookies()).get("session")?.value
+	const sessionToken = (await cookies()).get("session")?.value;
 
-    if (!sessionToken){
-        redirect("/auth/login");
-    }
+	if (!sessionToken) {
+		redirect("/auth/login");
+	}
 
-    const session = await verifySession(sessionToken)
+	const session = await verifySession(sessionToken);
 
-    if (!session) {
-        redirect("/auth/login");
-    }
+	if (!session) {
+		redirect("/auth/login");
+	}
 
-    return <DashboardClient/>;
+	return <DashboardClient />;
 }
