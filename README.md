@@ -17,7 +17,7 @@ This template is a **heavily modified** version of [Tiangolo’s Full-Stack Fast
 |-------------------|---------------|  
 | SQLAlchemy (PostgreSQL) | **MongoDB + Beanie ODM** |  
 | Vite.js (React) | **Next.js (App Router)** |  
-| Traditional CSS/JS | **Chakra UI v3 + Motion Animations** |  
+| Charkra UI | **Chakra UI v3 + Motion Animations** |  
 
 ### ❓ Why These Changes?  
 
